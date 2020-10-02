@@ -39,8 +39,6 @@ class App extends Component {
           const updatedTasks = [...tasks, task];
           this.setState({
             tasks: updatedTasks,
-            title: '',
-            description: '',
           });
         }
       });
@@ -69,9 +67,6 @@ class App extends Component {
 
           this.setState({
             tasks: updatedTasks,
-            taskId: '',
-            title: '',
-            description: '',
           });
         }
       });

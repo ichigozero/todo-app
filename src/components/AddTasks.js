@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
 class AddTasks extends Component {
@@ -36,72 +39,83 @@ class AddTasks extends Component {
 
   render() {
     return (
-      <div className="mt-5">
-        <button
-          type="button"
-          className="btn btn-primary btn-lg btn-block"
-          data-toggle="modal"
-          data-target="#addTaskModal"
-        >タスクを作成</button>
-        <div
-          className="modal fade"
-          id="addTaskModal"
-          tabindex="-1"
-          role="dialog"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">タスクを作成</h5>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={this.handleAdd}>
-                  <div className="form-group">
-                    <label
-                      for="taskTitle"
-                      className="col-form-label"
-                    >タイトル</label>
-                    <input
-                      type="text"
-                      name="title"
-                      value={this.state.title}
-                      onChange={this.handleChange}
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label
-                      for="taskDescription"
-                      className="col-form-label"
-                    >詳細</label>
-                    <textarea
-                      type="text"
-                      name="description"
-                      value={this.state.description}
-                      onChange={this.handleChange}
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                    >追加</button>
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-dismiss="modal"
-                    >キャンセル</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AddTaskForm
+        title={this.state.title}
+        description={this.state.description}
+        handleAdd={this.handleAdd}
+        handleChange={this.handleChange}
+      />
     );
   }
+}
+
+function AddTaskForm(props) {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  return (
+    <>
+      <div className="mt-5">
+        <Button
+          type="button"
+          variant="primary"
+          size="lg"
+          onClick={handleShow}
+          block
+        >タスクを作成</Button>
+      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header>
+          <Modal.Title>タスクを作成</Modal.Title>
+        </Modal.Header>
+
+        <form onSubmit={props.handleAdd}>
+          <Modal.Body>
+            <div className="form-group">
+              <label
+                for="taskTitle"
+                className="col-form-label"
+              >タイトル</label>
+              <input
+                type="text"
+                name="title"
+                value={props.title}
+                onChange={props.handleChange}
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label
+                for="taskDescription"
+                className="col-form-label"
+              >詳細</label>
+              <textarea
+                type="text"
+                name="description"
+                value={props.description}
+                onChange={props.handleChange}
+                className="form-control"
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              type="submit"
+              variant="primary"
+              onClick={handleClose}
+            >追加</Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleClose}
+            >キャンセル</Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
+    </>
+  );
 }
 
 export default AddTasks;
