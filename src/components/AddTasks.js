@@ -2,6 +2,38 @@ import React, { Component } from 'react';
 
 
 class AddTasks extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      title: '',
+      description: '',
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  handleChange(event) {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleAdd(event) {
+    event.preventDefault();
+
+    const task = {
+      title: this.state.title,
+      description: this.state.description,
+    };
+
+    this.props.addTask(task);
+  }
+
   render() {
     return (
       <div className="mt-5">
@@ -24,7 +56,7 @@ class AddTasks extends Component {
                 <h5 className="modal-title">タスクを作成</h5>
               </div>
               <div className="modal-body">
-                <form onSubmit={this.props.handleSubmit}>
+                <form onSubmit={this.handleAdd}>
                   <div className="form-group">
                     <label
                       for="taskTitle"
@@ -33,8 +65,8 @@ class AddTasks extends Component {
                     <input
                       type="text"
                       name="title"
-                      value={this.props.title}
-                      onChange={this.props.handleChange}
+                      value={this.state.title}
+                      onChange={this.handleChange}
                       className="form-control"
                     />
                   </div>
@@ -46,8 +78,8 @@ class AddTasks extends Component {
                     <textarea
                       type="text"
                       name="description"
-                      value={this.props.description}
-                      onChange={this.props.handleChange}
+                      value={this.state.description}
+                      onChange={this.handleChange}
                       className="form-control"
                     />
                   </div>
