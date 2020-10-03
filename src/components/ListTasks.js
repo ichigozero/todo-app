@@ -89,7 +89,12 @@ class ListTasks extends Component {
     return (
       <>
         <div className="mt-4 card">
-          <div className="card-header">未完了</div>
+          <div className="card-header">
+            未完了{' '}
+            <span className="badge badge-danger">
+              {undoneTasks.length}
+            </span>
+          </div>
             <ul className="list-group list-group-flush">
               { undoneTasks.map((task) =>
                 <SingleTask
@@ -103,7 +108,12 @@ class ListTasks extends Component {
             </ul>
         </div>
         <div className="mt-4 card">
-          <div className="card-header">完了</div>
+          <div className="card-header">
+            完了{' '}
+            <span className="badge badge-success">
+              {finishedTasks.length}
+            </span>
+          </div>
             <ul className="list-group list-group-flush">
               { finishedTasks.map((task) =>
                 <SingleTask
