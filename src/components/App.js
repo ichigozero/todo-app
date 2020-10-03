@@ -46,14 +46,14 @@ class App extends Component {
 
   updateTask(task) {
     const tasks = this.state.tasks;
-    const {taskId, title, description} = task;
+    const {taskId, title, description, done} = task;
 
     const requestOptions = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({title, description}),
+      body: JSON.stringify({title, description, done}),
     };
 
     fetch(`${API_URI}/${taskId}`, requestOptions)

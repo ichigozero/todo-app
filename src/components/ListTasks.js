@@ -16,6 +16,7 @@ class ListTasks extends Component {
     };
 
     this.editTask = this.editTask.bind(this);
+    this.updateTaskStatus = this.updateTaskStatus.bind(this);
     this.toggleForm = this.toggleForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -31,6 +32,20 @@ class ListTasks extends Component {
       description: task.description,
       formDisplay: true,
     });
+  }
+
+  updateTaskStatus(id) {
+    const isId = (item) => item.id === id;
+    const task = this.props.tasks.filter(isId)[0];
+
+    const updatedTask = {
+      taskId: task.id,
+      title: task.title,
+      description: task.description,
+      done: !task.done,
+    };
+
+    this.props.updateTask(updatedTask);
   }
 
   toggleForm() {
@@ -68,32 +83,39 @@ class ListTasks extends Component {
       description
     } = this.state;
 
+    const undoneTasks = this.props.tasks.filter(task => task.done === false);
+    const finishedTasks = this.props.tasks.filter(task => task.done === true);
+
     return (
-      <div className="mt-4 card">
-        <div className="card-header">未完了</div>
-        <ul className="list-group list-group-flush">
-          { this.props.tasks.map((item) =>
-          <li key={item.id} className="list-group-item">
-            {item.title}
-            <div className="float-right">
-              <button
-                type="button"
-                className="mr-3 btn btn-outline-primary"
-                onClick={() => this.editTask(item.id)}
-              >編集</button>
-              <button
-                type="button"
-                className="mr-3 btn btn-outline-danger"
-                onClick={() => this.props.deleteTask(item.id)}
-              >削除</button>
-              <button
-                type="button"
-                className="mr-3 btn btn-outline-success"
-              >完了する</button>
-            </div>
-          </li>
-          )}
-        </ul>
+      <>
+        <div className="mt-4 card">
+          <div className="card-header">未完了</div>
+            <ul className="list-group list-group-flush">
+              { undoneTasks.map((task) =>
+                <SingleTask
+                  task={task}
+                  markTaskText="完了する"
+                  editTask={this.editTask}
+                  deleteTask={this.props.deleteTask}
+                  updateTaskStatus={this.updateTaskStatus}
+                />
+              )}
+            </ul>
+        </div>
+        <div className="mt-4 card">
+          <div className="card-header">完了</div>
+            <ul className="list-group list-group-flush">
+              { finishedTasks.map((task) =>
+                <SingleTask
+                  task={task}
+                  markTaskText="戻す"
+                  editTask={this.editTask}
+                  deleteTask={this.props.deleteTask}
+                  updateTaskStatus={this.updateTaskStatus}
+                />
+              )}
+            </ul>
+        </div>
         <EditTaskForm
           formDisplay={formDisplay}
           taskId={taskId}
@@ -103,9 +125,34 @@ class ListTasks extends Component {
           handleChange={this.handleChange}
           handleUpdate={this.handleUpdate}
         />
-      </div>
+      </>
     );
   }
+}
+
+function SingleTask(props) {
+  return (
+    <li key={props.task.id} className="list-group-item">
+      {props.task.title}
+      <div className="float-right">
+        <button
+          type="button"
+          className="mr-3 btn btn-outline-primary"
+          onClick={() => props.editTask(props.task.id)}
+        >編集</button>
+        <button
+          type="button"
+          className="mr-3 btn btn-outline-danger"
+          onClick={() => props.deleteTask(props.task.id)}
+        >削除</button>
+        <button
+          type="button"
+          className="mr-3 btn btn-outline-success"
+          onClick={() => props.updateTaskStatus(props.task.id)}
+        >{props.markTaskText}</button>
+      </div>
+    </li>
+  );
 }
 
 function EditTaskForm(props) {
