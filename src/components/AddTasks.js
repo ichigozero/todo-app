@@ -35,6 +35,11 @@ class AddTasks extends Component {
     };
 
     this.props.addTask(task);
+
+    this.setState({
+      title: '',
+      description: '',
+    });
   }
 
   render() {

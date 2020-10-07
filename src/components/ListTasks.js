@@ -208,11 +208,15 @@ function EditTaskForm(props) {
               />
             </div>
           </Modal.Body>
-          <input
-            type="hidden"
-            name="taskId"
-            value={props.taskId}
-          />
+          {props.taskId !== '' ? (
+            <input
+              type="hidden"
+              name="taskId"
+              value={props.taskId}
+            />
+          ) : (
+            null
+          )}
           <Modal.Footer>
             <Button
               type="submit"
