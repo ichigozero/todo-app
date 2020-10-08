@@ -1,8 +1,6 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component } from 'react';
 
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-
+import TaskForm from './TaskForm';
 
 class ListTasks extends Component {
   constructor() {
@@ -15,11 +13,17 @@ class ListTasks extends Component {
       formDisplay: false,
     };
 
+    this.toggleForm = this.toggleForm.bind(this);
     this.editTask = this.editTask.bind(this);
     this.updateTaskStatus = this.updateTaskStatus.bind(this);
-    this.toggleForm = this.toggleForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+  }
+
+  toggleForm() {
+    this.setState({
+      formDisplay: !this.state.formDisplay
+    });
   }
 
   editTask(id) {
@@ -48,12 +52,6 @@ class ListTasks extends Component {
     this.props.updateTask(updatedTask);
   }
 
-  toggleForm() {
-    this.setState({
-      formDisplay: !this.state.formDisplay
-    });
-  }
-
   handleChange(event) {
     const value = event.target.value;
     const name = event.target.name;
@@ -73,6 +71,12 @@ class ListTasks extends Component {
     };
 
     this.props.updateTask(task);
+
+    this.setState({
+      taskId: '',
+      title: '',
+      description: '',
+    });
   }
 
   render() {
@@ -126,14 +130,14 @@ class ListTasks extends Component {
               )}
             </ul>
         </div>
-        <EditTaskForm
+        <TaskForm
           formDisplay={formDisplay}
           taskId={taskId}
           title={title}
           description={description}
           toggleForm={this.toggleForm}
           handleChange={this.handleChange}
-          handleUpdate={this.handleUpdate}
+          handleSubmit={this.handleUpdate}
         />
       </>
     );
@@ -162,76 +166,6 @@ function SingleTask(props) {
         >{props.markTaskText}</button>
       </div>
     </li>
-  );
-}
-
-function EditTaskForm(props) {
-  const [show, setShow] = useState(props.formDisplay);
-
-  useEffect(() => {
-    setShow(props.formDisplay)
-  }, [props.formDisplay])
-
-  return (
-    <>
-      <Modal show={show} onHide={props.toggleForm}>
-        <Modal.Header>
-          <Modal.Title>タスクを作成</Modal.Title>
-        </Modal.Header>
-
-        <form onSubmit={props.handleUpdate}>
-          <Modal.Body>
-            <div className="form-group">
-              <label
-                for="taskTitle"
-                className="col-form-label"
-              >タイトル</label>
-              <input
-                type="text"
-                name="title"
-                value={props.title}
-                onChange={props.handleChange}
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label
-                for="taskDescription"
-                className="col-form-label"
-              >詳細</label>
-              <textarea
-                type="text"
-                name="description"
-                value={props.description}
-                onChange={props.handleChange}
-                className="form-control"
-              />
-            </div>
-          </Modal.Body>
-          {props.taskId !== '' ? (
-            <input
-              type="hidden"
-              name="taskId"
-              value={props.taskId}
-            />
-          ) : (
-            null
-          )}
-          <Modal.Footer>
-            <Button
-              type="submit"
-              variant="primary"
-              onClick={props.toggleForm}
-            >適用</Button>
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={props.toggleForm}
-            >キャンセル</Button>
-          </Modal.Footer>
-        </form>
-      </Modal>
-    </>
   );
 }
 

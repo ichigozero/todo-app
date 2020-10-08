@@ -12,6 +12,7 @@ class App extends Component {
 
     this.state = {
       tasks: null,
+      formDisplay: false,
     };
 
     this.addTask = this.addTask.bind(this);
@@ -107,9 +108,13 @@ class App extends Component {
 
     return (
       <main role="main" className="container">
-        <AddTasks addTask={this.addTask} />
+        <AddTasks
+          formDisplay={this.state.formDisplay}
+          addTask={this.addTask}
+        />
         <ListTasks
           tasks={this.state.tasks}
+          formDisplay={this.state.formDisplay}
           updateTask={this.updateTask}
           deleteTask={this.deleteTask}
         />
