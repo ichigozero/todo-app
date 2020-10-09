@@ -4,25 +4,35 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-function TaskForm(props) {
-  const [show, setShow] = useState(props.formDisplay);
+function TaskForm(
+  {
+    formDisplay,
+    taskId,
+    title,
+    description,
+    toggleForm,
+    handleChange,
+    handleSubmit,
+  }
+) {
+  const [show, setShow] = useState(formDisplay);
 
   useEffect(() => {
-    setShow(props.formDisplay)
-  }, [props.formDisplay])
+    setShow(formDisplay)
+  }, [formDisplay])
 
   return (
     <>
-      <Modal show={show} onHide={props.toggleForm}>
+      <Modal show={show} onHide={toggleForm}>
         <Modal.Header>
-          {!props.taskId ? (
+          {!taskId ? (
             <Modal.Title>タスクを作成</Modal.Title>
           ) : (
             <Modal.Title>タスクを編集</Modal.Title>
           )}
         </Modal.Header>
 
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <Modal.Body>
             <div className="form-group">
               <label
@@ -32,8 +42,8 @@ function TaskForm(props) {
               <input
                 type="text"
                 name="title"
-                value={props.title}
-                onChange={props.handleChange}
+                value={title}
+                onChange={handleChange}
                 className="form-control"
               />
             </div>
@@ -45,17 +55,17 @@ function TaskForm(props) {
               <textarea
                 type="text"
                 name="description"
-                value={props.description}
-                onChange={props.handleChange}
+                value={description}
+                onChange={handleChange}
                 className="form-control"
               />
             </div>
           </Modal.Body>
-          {props.taskId ? (
+          {taskId ? (
             <input
               type="hidden"
               name="taskId"
-              value={props.taskId}
+              value={taskId}
             />
           ) : (
             null
@@ -64,12 +74,12 @@ function TaskForm(props) {
             <Button
               type="submit"
               variant="primary"
-              onClick={props.toggleForm}
+              onClick={toggleForm}
             >適用</Button>
             <Button
               type="button"
               variant="secondary"
-              onClick={props.toggleForm}
+              onClick={toggleForm}
             >キャンセル</Button>
           </Modal.Footer>
         </form>
