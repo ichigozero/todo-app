@@ -7,20 +7,12 @@ import ListTasks from './ListTasks';
 const API_URI = '/todo/api/v1.0/tasks';
 
 class App extends Component {
-  constructor() {
-    super();
+  state = {
+    tasks: null,
+    formDisplay: false,
+  };
 
-    this.state = {
-      tasks: null,
-      formDisplay: false,
-    };
-
-    this.addTask = this.addTask.bind(this);
-    this.updateTask = this.updateTask.bind(this);
-    this.deleteTask = this.deleteTask.bind(this);
-  }
-
-  addTask(task) {
+  addTask = (task) => {
     const tasks = this.state.tasks;
     const {title, description} = task;
 
@@ -45,7 +37,7 @@ class App extends Component {
       });
   }
 
-  updateTask(task) {
+  updateTask = (task) => {
     const tasks = this.state.tasks;
     const {taskId, title, description, done} = task;
 
@@ -73,7 +65,7 @@ class App extends Component {
       });
   }
 
-  deleteTask(id) {
+  deleteTask = (id) => {
     const requestOptions = {
       method: 'DELETE',
       headers: {

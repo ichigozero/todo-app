@@ -5,27 +5,19 @@ import Button from 'react-bootstrap/Button';
 import TaskForm from './TaskForm';
 
 class AddTasks extends Component {
-  constructor() {
-    super();
+  state = {
+    title: '',
+    description: '',
+    formDisplay: false,
+  };
 
-    this.state = {
-      title: '',
-      description: '',
-      formDisplay: false,
-    };
-
-    this.toggleForm = this.toggleForm.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleAdd = this.handleAdd.bind(this);
-  }
-
-  toggleForm() {
+  toggleForm = () => {
     this.setState({
       formDisplay: !this.state.formDisplay
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const value = event.target.value;
     const name = event.target.name;
 
@@ -34,7 +26,7 @@ class AddTasks extends Component {
     });
   }
 
-  handleAdd(event) {
+  handleAdd = (event) => {
     event.preventDefault();
 
     const task = {

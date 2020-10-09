@@ -3,30 +3,20 @@ import React, { Component } from 'react';
 import TaskForm from './TaskForm';
 
 class ListTasks extends Component {
-  constructor() {
-    super();
+  state = {
+    taskId: '',
+    title: '',
+    description: '',
+    formDisplay: false,
+  };
 
-    this.state = {
-      taskId: '',
-      title: '',
-      description: '',
-      formDisplay: false,
-    };
-
-    this.toggleForm = this.toggleForm.bind(this);
-    this.editTask = this.editTask.bind(this);
-    this.updateTaskStatus = this.updateTaskStatus.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
-  }
-
-  toggleForm() {
+  toggleForm = () => {
     this.setState({
       formDisplay: !this.state.formDisplay
     });
   }
 
-  editTask(id) {
+  editTask = (id) => {
     const isId = (item) => item.id === id;
     const task = this.props.tasks.filter(isId)[0];
 
@@ -38,7 +28,7 @@ class ListTasks extends Component {
     });
   }
 
-  updateTaskStatus(id) {
+  updateTaskStatus = (id) => {
     const isId = (item) => item.id === id;
     const task = this.props.tasks.filter(isId)[0];
 
@@ -52,7 +42,7 @@ class ListTasks extends Component {
     this.props.updateTask(updatedTask);
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const value = event.target.value;
     const name = event.target.name;
 
@@ -61,7 +51,7 @@ class ListTasks extends Component {
     });
   }
 
-  handleUpdate(event) {
+  handleUpdate = (event) => {
     event.preventDefault();
 
     const task = {
