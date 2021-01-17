@@ -93,6 +93,7 @@ class ListTasks extends Component {
               { undoneTasks.map((task) =>
                 <SingleTask
                   task={task}
+                  key={task.id}
                   markTaskText="完了する"
                   editTask={this.editTask}
                   deleteTask={this.props.deleteTask}
@@ -112,6 +113,7 @@ class ListTasks extends Component {
               { finishedTasks.map((task) =>
                 <SingleTask
                   task={task}
+                  key={task.id}
                   markTaskText="戻す"
                   editTask={this.editTask}
                   deleteTask={this.props.deleteTask}
