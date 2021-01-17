@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../css/App.css';
 
 import AddTasks from './AddTasks';
 import ListTasks from './ListTasks';
